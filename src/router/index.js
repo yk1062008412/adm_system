@@ -4,13 +4,25 @@ import VueRouter from 'vue-router';
 Vue.use(VueRouter);
 
 const routes = [
+    { path: '/', name: 'login', component: () => import('../pages/login') },
     { path: '/login', name: 'login', component: () => import('../pages/login') },
-    { path: '/home', name: 'home', component: () => import('../pages/home') }, // 首页
+    {
+        path: '/home/',
+        name: 'home',
+        component: () => import('../pages/home'),
+        children: [
+            { path: '/home/', name: 'order', component: () => import('../pages/home/orderManage') },
+            { path: '/home/order', name: 'order', component: () => import('../pages/home/orderManage') },
+            { path: '/home/account', name: 'account', component: () => import('../pages/home/accountManage') },
+            { path: '/home/*', name: 'error', component: () => import('../pages/error') }
+        ]
+    }, // 首页
+    { path: '/*', name: 'error', component: () => import('../pages/error') }
 ]
 
-const router =  new VueRouter({
+const router = new VueRouter({
     mode: 'history',
-    scrollBehavior: () => ({ y: 0}),
+    scrollBehavior: () => ({ y: 0 }),
     routes
 })
 
