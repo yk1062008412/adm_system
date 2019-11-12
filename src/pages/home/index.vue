@@ -28,13 +28,22 @@
             <el-submenu index="1">
               <template slot="title">
                 <i class="el-icon-s-order"></i>
+                <span>商品管理</span>
+              </template>
+              <el-menu-item index="storeCategory">商品分类</el-menu-item>
+              <el-menu-item index="storeInfo">商品信息</el-menu-item>
+              <el-menu-item index="1-3">选项3</el-menu-item>
+            </el-submenu>
+            <el-submenu index="2">
+              <template slot="title">
+                <i class="el-icon-s-order"></i>
                 <span>订单管理</span>
               </template>
               <el-menu-item index="order">订单管理</el-menu-item>
               <el-menu-item index="1-2">选项2</el-menu-item>
               <el-menu-item index="1-3">选项3</el-menu-item>
             </el-submenu>
-            <el-submenu index="2">
+            <el-submenu index="3">
               <template slot="title">
                 <i class="el-icon-s-data"></i>
                 <span>数据管理</span>
@@ -43,7 +52,7 @@
               <el-menu-item index="1-2">选项2</el-menu-item>
               <el-menu-item index="1-3">选项3</el-menu-item>
             </el-submenu>
-            <el-submenu index="3">
+            <el-submenu index="4">
               <template slot="title">
                 <i class="el-icon-setting"></i>
                 <span>系统设置</span>
@@ -52,7 +61,7 @@
               <el-menu-item index="1-2">选项2</el-menu-item>
               <el-menu-item index="1-3">选项3</el-menu-item>
             </el-submenu>
-            <el-submenu index="4" disabled>
+            <el-submenu index="5" disabled>
               <template slot="title">
                 <i class="el-icon-setting"></i>
                 <span slot="title">导航四</span>

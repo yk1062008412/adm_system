@@ -14,6 +14,8 @@ const routes = [
             { path: '/home/', name: 'order', component: () => import('../pages/home/orderManage') },
             { path: '/home/order', name: 'order', component: () => import('../pages/home/orderManage') },
             { path: '/home/account', name: 'account', component: () => import('../pages/home/accountManage') },
+            { path: '/home/storeCategory', name: 'store', component: () => import('../pages/home/storeCategory') },
+            { path: '/home/storeInfo', name: 'store', component: () => import('../pages/home/storeInfo') },
             { path: '/home/*', name: 'error', component: () => import('../pages/error') }
         ]
     }, // 首页
