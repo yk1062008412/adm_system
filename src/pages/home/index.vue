@@ -78,15 +78,15 @@
 </template>
 
 <script>
-import { testReq } from "@/api/test";
+import { getAdmInfo } from "@/api/home/index";
 export default {
   name: "Home",
   mounted() {
-    this.testName();
+    this.getUserInfo();
   },
   methods: {
-    testName() {
-      testReq({}).then(data => {
+    getUserInfo() {
+      getAdmInfo().then(data => {
         console.log(data);
       });
     }

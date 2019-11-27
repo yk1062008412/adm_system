@@ -1,3 +1,10 @@
+/*
+ * @Author: yk1062008412
+ * @Date: 2019-11-03 02:09:44
+ * @LastEditors: yk1062008412
+ * @LastEditTime: 2019-11-27 22:35:19
+ * @Description: 封装axios
+ */
 
 import axios from 'axios';
 
@@ -27,7 +34,7 @@ service.interceptors.request.use(
     config => {
         const token = localStorage.getItem('_token_');
         if (token) {
-            // 此处有坑，下方记录
+            // token赋值，带到后端
             config.headers['Authorization'] =`Bearer ${token}`;
           }
         return config;
