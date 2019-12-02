@@ -6,7 +6,7 @@
         <el-dropdown>
           <span class="el-dropdown-link">
             <span class="welcome-text">欢迎您，</span>
-            <span class="user-name">管理员</span>
+            <span class="user-name">{{ admName }}</span>
             <i class="el-icon-arrow-down el-icon--right"></i>
           </span>
           <el-dropdown-menu slot="dropdown">
@@ -81,13 +81,18 @@
 import { getAdmInfo } from "@/api/home/index";
 export default {
   name: "Home",
+  data() {
+    return {
+      admName: ''
+    }
+  },
   mounted() {
     this.getUserInfo();
   },
   methods: {
     getUserInfo() {
-      getAdmInfo().then(data => {
-        console.log(data);
+      getAdmInfo().then(({ data }) => {
+        this.admName = data.adm_name || '未知用户';
       });
     }
   }
