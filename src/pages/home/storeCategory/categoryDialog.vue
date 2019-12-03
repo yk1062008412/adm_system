@@ -2,13 +2,16 @@
  * @Author: yk1062008412
  * @Date: 2019-12-02 22:40:30
  * @LastEditors: yk1062008412
- * @LastEditTime: 2019-12-02 23:23:46
+ * @LastEditTime: 2019-12-03 23:26:18
  * @Description: file content
  -->
 <template>
   <el-form ref="form" :rules="rules" :model="formData" label-width="80px" size="small">
+    <el-form-item label="分类ID">
+      <span>{{ categoryId }}</span>
+    </el-form-item>
     <el-form-item label="分类名称" prop="categoryName">
-      <el-input v-model="formData.categoryName" maxlength="6" placeholder="请输入分类名称" />
+      <el-input v-model="formData.categoryName" maxlength="6" placeholder="请输入分类名称(最多6个字)" />
     </el-form-item>
     <el-form-item label="状态" prop="categoryStatus">
       <el-select v-model="formData.categoryStatus" placeholder="请选择上下架状态" class="select-width">
@@ -24,18 +27,23 @@
     </el-form-item>
     <el-row class="button-group">
       <el-button @click="closeDialog" size="small">取 消</el-button>
-      <el-button type="primary" @click="addCategory" size="small">确 定</el-button>
+      <el-button v-if="dialogType === 1" type="primary" @click="addCategory" size="small">添 加</el-button>
+      <el-button v-if="dialogType === 2" type="primary" @click="saveCategory" size="small">确 定</el-button>
     </el-row>
   </el-form>
 </template>
 
 <script>
-import { insertCategory } from "@/api/home/storeCategory";
+import { insertCategory, getCategoryInfo, editCategoryInfo } from "@/api/home/storeCategory";
 export default {
   props: {
     dialogType: {
       type: Number,
       required: true
+    },
+    categoryId: {
+      type: Number,
+      default: null
     }
   },
   data() {
@@ -71,11 +79,16 @@ export default {
       }
     }
   },
+  created() {
+    if(this.dialogType === 2){
+      this.getCategoryDetail();
+    }
+  },
   methods: {
     closeDialog() { // 取消添加，关闭弹窗
       this.$emit('handleClose')
     },
-    addCategory() {
+    addCategory() { // 新增类目
       this.$refs['form'].validate((valid) => {
         if(!valid) return false;
         insertCategory(this.formData).then(({ code }) => {
@@ -84,9 +97,32 @@ export default {
               message: '分类添加成功',
               type: 'success'
             });
-            this.$emit('handleInsert')
+            this.$emit('handleReFetch')
           }
         })
+      })
+    },
+    getCategoryDetail(){ // 获取类目详情
+      getCategoryInfo(this.categoryId).then(({ data:{ category_name, category_status, category_index, comments }}) => {
+        this.formData.categoryName = category_name;
+        this.formData.categoryStatus = category_status;
+        this.formData.categoryIndex = category_index;
+        this.formData.comments = comments;
+      })
+    },
+    saveCategory(){ // 保存修改的类目
+      const params = {
+        ...this.formData,
+        categoryId: this.categoryId
+      }
+      editCategoryInfo(params).then(({ code }) => {
+        if(code === 0){
+          this.$message({
+            message: '修改成功',
+            type: 'success'
+          });
+          this.$emit('handleReFetch')
+        }
       })
     }
   },

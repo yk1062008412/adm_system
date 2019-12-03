@@ -2,7 +2,7 @@
  * @Author: yk1062008412
  * @Date: 2019-11-05 22:09:21
  * @LastEditors: yk1062008412
- * @LastEditTime: 2019-12-02 23:24:53
+ * @LastEditTime: 2019-12-03 23:15:25
  * @Description: 商品分类页面
  -->
 <template>
@@ -12,15 +12,20 @@
         type="primary"
         icon="el-icon-circle-plus-outline"
         size="small"
-        @click="openDialog"
+        @click="openInsertDialog"
       >新增分类</el-button>
     </el-row>
-    <category-table :list="tableData" />
+    <category-table
+      :list="tableData"
+      @handleEdit="handleEdit"
+    />
     <el-dialog title="新增分类" :visible.sync="dialogVisible" width="450px">
       <category-dialog
+        v-if="dialogVisible"
         :dialog-type="dialogType"
+        :category-id="editCategoryId"
         @handleClose="handleClose"
-        @handleInsert="handleInsert"
+        @handleReFetch="handleReFetch"
       />
     </el-dialog>
   </div>
@@ -40,7 +45,8 @@ export default {
     return {
       tableData: [],
       dialogVisible: false,
-      dialogType: 1 // 1新增，2编辑
+      dialogType: 1, // 1新增，2编辑
+      editCategoryId: null // 类目ID
     };
   },
   created() {
@@ -52,15 +58,22 @@ export default {
         this.tableData = data || [];
       })
     },
-    openDialog(){ // 打开弹窗
+    openInsertDialog(){ // 打开弹窗
+      this.dialogType = 1;
+      this.editCategoryId = null;
       this.dialogVisible = true;
     },
     handleClose(){ //关闭弹窗
       this.dialogVisible = false;
     },
-    handleInsert(){ // 添加成功，重新获取数据
+    handleReFetch(){ // 添加成功，重新获取数据
       this.dialogVisible = false;
       this.fetchData();
+    },
+    handleEdit(categoryId){ // 编辑分类
+      this.dialogType = 2;
+      this.editCategoryId = categoryId;
+      this.dialogVisible = true;
     }
   },
 };
