@@ -2,8 +2,8 @@
  * @Author: yk1062008412
  * @Date: 2019-11-05 22:09:21
  * @LastEditors: yk1062008412
- * @LastEditTime: 2019-12-03 23:15:25
- * @Description: 商品分类页面
+ * @LastEditTime: 2019-12-04 22:55:00
+ * @Description: 商品管理 -> 商品分类
  -->
 <template>
   <div>
@@ -18,6 +18,7 @@
     <category-table
       :list="tableData"
       @handleEdit="handleEdit"
+      @handleReFetch="handleReFetch"
     />
     <el-dialog title="新增分类" :visible.sync="dialogVisible" width="450px">
       <category-dialog

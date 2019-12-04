@@ -2,7 +2,7 @@
  * @Author: yk1062008412
  * @Date: 2019-11-27 22:46:10
  * @LastEditors: yk1062008412
- * @LastEditTime: 2019-12-03 23:13:25
+ * @LastEditTime: 2019-12-04 23:01:38
  * @Description: storeCategory商品分类接口
  */
 import request from '@/utils/request';
@@ -38,6 +38,24 @@ export function getCategoryInfo(categoryId) {
 export function editCategoryInfo(params) {
     return request({
         url: 'category/categoryUpdate',
+        method: 'post',
+        data: params
+    })
+}
+
+// 上架下架类目
+export function categoryUpOff(params){
+    return request({
+        url: 'category/categoryPopUp',
+        method: 'post',
+        data: params
+    })
+}
+
+// 删除类目
+export function categoryDelete(params){
+    return request({
+        url: 'category/categoryDelete',
         method: 'post',
         data: params
     })
