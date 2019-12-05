@@ -2,7 +2,7 @@
  * @Author: yk1062008412
  * @Date: 2019-12-04 22:35:02
  * @LastEditors: yk1062008412
- * @LastEditTime: 2019-12-04 23:24:18
+ * @LastEditTime: 2019-12-06 00:08:23
  * @Description: store 查询内容
  -->
 <template>
@@ -39,7 +39,7 @@
       </el-row>
       <el-row>
         <el-col :span="8">
-          <el-button type="primary" size="small">查 询</el-button>
+          <el-button type="primary" size="small" @click="onSearch">查 询</el-button>
           <el-button type="primary" size="small">新增商品</el-button>
         </el-col>
       </el-row>
@@ -67,6 +67,9 @@ export default {
       getCategoryList().then(({ data }) => {
         this.categoryList = data || [];
       })
+    },
+    onSearch(){ // 查询商品列表
+      this.$emit('handleSearch', this.formData);
     }
   },
 }
