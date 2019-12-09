@@ -2,11 +2,12 @@
  * @Author: yk1062008412
  * @Date: 2019-11-03 02:09:44
  * @LastEditors: yk1062008412
- * @LastEditTime: 2019-11-27 22:35:19
+ * @LastEditTime: 2019-12-09 22:06:38
  * @Description: 封装axios
  */
 
 import axios from 'axios';
+import { REQUESTURL } from '@/config/config.js';
 
 // 携带cookie
 axios.defaults.withCredentials = true;
@@ -14,7 +15,7 @@ axios.defaults.withCredentials = true;
 const service = axios.create({
     timeout: 30000,
     responseType: 'json',
-    baseURL: 'http://localhost:3001/', // api 的 base_url
+    baseURL: REQUESTURL, // api 的 base_url
     withCredentials: true, // 是否允许带cookie
     headers: {
         'Content-Type': 'application/x-www-form-urlencoded;charset=utf-8', // 接口需要 urlencoded 不能使json格式,

@@ -2,7 +2,7 @@
  * @Author: yk1062008412
  * @Date: 2019-12-07 20:46:50
  * @LastEditors: yk1062008412
- * @LastEditTime: 2019-12-07 22:46:13
+ * @LastEditTime: 2019-12-09 22:21:26
  * @Description: 图片上传组件
  -->
 
@@ -20,7 +20,9 @@
           :before-upload="beforePicUpload"
           class="refresh-upload"
           name="upload"
-          action="/file/fileAdd">
+          :action="fileUPloadUrl"
+          :headers="authHeader"
+        >
           <i class="el-icon-refresh"/>
         </el-upload>
       </div>
@@ -32,7 +34,8 @@
       :before-upload="beforePicUpload"
       class="pic-container"
       name="upload"
-      action="/file/fileAdd"
+      :action="fileUPloadUrl"
+      :headers="authHeader"
     >
       <div class="pic-plus-area">
         <i class="el-icon-plus pic-uploader-icon" />
@@ -48,7 +51,8 @@
   </div>
 </template>
 <script>
-import ElImageViewer from 'element-ui/packages/image/src/image-viewer'
+import ElImageViewer from 'element-ui/packages/image/src/image-viewer';
+import { REQUESTURL } from '@/config/config.js';
 export default {
   props: {
     imgUrl: {
@@ -60,11 +64,19 @@ export default {
     ElImageViewer
   },
   data() {
+    const token = `Bearer ${localStorage.getItem('_token_')}`;
     return {
       dialogImageUrl: '',
       dialogVisible: false,
-      showImgViewer: false
+      showImgViewer: false,
+      fileUPloadUrl: '',
+      authHeader: {
+        'Authorization': token
+      }
     }
+  },
+  created() {
+    this.fileUPloadUrl = REQUESTURL + 'file/uploadFile';
   },
   methods: {
     beforePicUpload(file) {
