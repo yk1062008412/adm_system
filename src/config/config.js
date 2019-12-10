@@ -1,0 +1,1 @@
+export const REQUESTURL = 'http://localhost:8081/api/'
