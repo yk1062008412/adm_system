@@ -2,7 +2,7 @@
  * @Author: yk1062008412
  * @Date: 2019-12-04 22:35:02
  * @LastEditors: yk1062008412
- * @LastEditTime: 2019-12-06 00:08:23
+ * @LastEditTime: 2019-12-07 17:33:13
  * @Description: store 查询内容
  -->
 <template>
@@ -40,15 +40,20 @@
       <el-row>
         <el-col :span="8">
           <el-button type="primary" size="small" @click="onSearch">查 询</el-button>
-          <el-button type="primary" size="small">新增商品</el-button>
+          <el-button type="primary" size="small" @click="addStore">新增商品</el-button>
         </el-col>
       </el-row>
     </el-form>
   </div>
 </template>
 <script>
-import { getCategoryList } from "@/api/home/storeCategory";
 export default {
+  props: {
+    categoryList: {
+      type: Array,
+      required: true
+    }
+  },
   data() {
     return {
       formData: {
@@ -56,22 +61,16 @@ export default {
         categoryId: '',
         goodsStatus: ''
       },
-      categoryList: [] // 类目列表
     }
-  },
-  created() {
-    this.getCategory()
   },
   methods: {
-    getCategory(){ // 获取类目列表
-      getCategoryList().then(({ data }) => {
-        this.categoryList = data || [];
-      })
-    },
     onSearch(){ // 查询商品列表
       this.$emit('handleSearch', this.formData);
+    },
+    addStore(){ // 添加商品
+      this.$emit('handleAddStore')
     }
-  },
+  }
 }
 </script>
 <style lang="less" scoped>

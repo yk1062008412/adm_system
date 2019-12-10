@@ -6,6 +6,7 @@ function resolve(dir) {
 }
 
 module.exports = {
+    publicPath: './',
     devServer: {
         open: true,
         overlay: {
