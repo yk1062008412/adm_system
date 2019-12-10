@@ -14,7 +14,7 @@ axios.defaults.withCredentials = true;
 const service = axios.create({
     timeout: 30000,
     responseType: 'json',
-    baseURL: 'http://localhost:3001/', // api 的 base_url
+    baseURL: 'http://localhost:8081/api/', // api 的 base_url
     withCredentials: true, // 是否允许带cookie
     headers: {
         'Content-Type': 'application/x-www-form-urlencoded;charset=utf-8', // 接口需要 urlencoded 不能使json格式,
@@ -36,7 +36,7 @@ service.interceptors.request.use(
         if (token) {
             // token赋值，带到后端
             config.headers['Authorization'] =`Bearer ${token}`;
-          }
+        }
         return config;
     },
     error => {
