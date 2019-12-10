@@ -15,11 +15,7 @@ axios.defaults.withCredentials = true;
 const service = axios.create({
     timeout: 30000,
     responseType: 'json',
-<<<<<<< HEAD
-    baseURL: 'http://localhost:8081/api/', // api 的 base_url
-=======
     baseURL: REQUESTURL, // api 的 base_url
->>>>>>> abafc2ac121fe84a9e8ebb6281a84cfa0030589c
     withCredentials: true, // 是否允许带cookie
     headers: {
         'Content-Type': 'application/x-www-form-urlencoded;charset=utf-8', // 接口需要 urlencoded 不能使json格式,

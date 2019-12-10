@@ -6,4 +6,4 @@
  * @Description: file content
  */
 export const FILEUPLOADURL = 'http://localhost:3001/';
-export const REQUESTURL = 'http://localhost:3001/';
+export const REQUESTURL = 'http://localhost:8081/api/';
