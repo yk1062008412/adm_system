@@ -2,7 +2,7 @@
  * @Author: yk1062008412
  * @Date: 2019-11-03 02:09:44
  * @LastEditors: yk1062008412
- * @LastEditTime: 2019-12-10 14:15:57
+ * @LastEditTime: 2019-12-10 15:17:57
  * @Description: 封装axios
  */
 
@@ -55,7 +55,7 @@ service.interceptors.response.use(
         return Promise.reject({message: 'response error', response: response}); 
     },
     error => {
-        location.href = '/login';
+        // location.href = '/login';
         return Promise.reject(error);
     }
 );

@@ -2,12 +2,12 @@
  * @Author: yk1062008412
  * @Date: 2019-12-02 22:40:30
  * @LastEditors: yk1062008412
- * @LastEditTime: 2019-12-03 23:26:18
+ * @LastEditTime: 2019-12-10 20:58:43
  * @Description: file content
  -->
 <template>
   <el-form ref="form" :rules="rules" :model="formData" label-width="80px" size="small">
-    <el-form-item label="分类ID">
+    <el-form-item label="分类ID" v-if="dialogType === 2">
       <span>{{ categoryId }}</span>
     </el-form-item>
     <el-form-item label="分类名称" prop="categoryName">

@@ -2,7 +2,7 @@
  * @Author: yk1062008412
  * @Date: 2019-12-04 22:35:02
  * @LastEditors: yk1062008412
- * @LastEditTime: 2019-12-07 17:33:13
+ * @LastEditTime: 2019-12-10 15:31:31
  * @Description: store 查询内容
  -->
 <template>
@@ -30,9 +30,9 @@
         <el-col :span="8">
           <el-form-item label="状态">
             <el-select v-model="formData.goodsStatus" placeholder="请选择状态" class="select-empty">
-              <option value="" label="全部" />
-              <option :value="1" label="上架" />
-              <option :value="0" label="下架" />
+              <el-option value="" label="全部" />
+              <el-option value="1" label="上架" />
+              <el-option value="0" label="下架" />
             </el-select>
           </el-form-item>
         </el-col>

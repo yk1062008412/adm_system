@@ -2,13 +2,18 @@
  * @Author: yk1062008412
  * @Date: 2019-12-04 22:36:35
  * @LastEditors: yk1062008412
- * @LastEditTime: 2019-12-07 22:48:13
+ * @LastEditTime: 2019-12-10 20:46:28
  * @Description: store 新增编辑弹框
  -->
 <template>
   <div>
     <el-form ref="formData" :rules="formRule" :model="formData" label-width="80px" size="small">
       <el-row>
+        <el-col :span="8" v-if="dialogStatus === 'edit'">
+          <el-form-item label="商品ID">
+            <span>{{ goodsId }}</span>
+          </el-form-item>
+        </el-col>
         <el-col :span="8">
           <el-form-item label="商品名称" prop="goodsName">
             <el-input v-model="formData.goodsName" placeholder="请输入商品名称" />
@@ -26,11 +31,6 @@
             </el-select>
           </el-form-item>
         </el-col>
-        <!-- <el-col :span="8">
-          <el-form-item label="商品编码">
-            <el-input v-model="formData.goodsCode" placeholder="请输入商品编码" />
-          </el-form-item>
-        </el-col> -->
         <el-col :span="8">
           <el-form-item label="进价" prop="stockPrice">
             <el-input v-model="formData.stockPrice" placeholder="请输入进价" />
@@ -77,13 +77,14 @@
       </el-row>
       <el-row>
         <el-col :span="8">
-          <el-form-item label="商品图片">
+          <el-form-item label="商品图片" required>
             <img-upload :img-url="formData.goodsImgUrl" @picUploadSuccess="uploadSuccess"/>
           </el-form-item>
         </el-col>
       </el-row>
       <el-row class="button-group">
-        <el-button type="primary" size="small" @click="addStore">确 定</el-button>
+        <el-button v-if="dialogStatus === 'add'" type="primary" size="small" @click="addStore">确 定</el-button>
+        <el-button v-else type="primary" size="small" @click="editStore">确 定</el-button>
         <el-button type="primary" size="small" @click="cancelOperate">取 消</el-button>
       </el-row>
     </el-form>
@@ -91,16 +92,29 @@
 </template>
 <script>
 import imgUpload from '@/components/imgUpload/index';
-import { addStoreItem } from "@/api/home/storeInfo";
+import { addStoreItem, getGoodsDetail, goodsUpdate } from "@/api/home/storeInfo";
+import { FILEURL } from '@/config/config.js';
 export default {
   props: {
     categoryList: {
       type: Array,
       required: true
+    },
+    dialogStatus: {
+      type: String,
+      default: 'add'
+    },
+    goodsId: {
+      type: Number
     }
   },
   components: {
     imgUpload
+  },
+  mounted() {
+    if(this.dialogStatus === 'edit'){
+      this.getGoodsInfo(this.goodsId);
+    }
   },
   data() {
     // 价格校验
@@ -109,7 +123,7 @@ export default {
         callback();
       }
       if(!(/^[0-9]+(.[0-9]{2})?$/.test(value))){
-        callback(new Error('请输入数字值'));
+        callback(new Error('请输入正确的金额'));
       }else{
         callback();
       }
@@ -131,7 +145,6 @@ export default {
       formData: {
         categoryId: '',
         goodsName: '',
-        goodsCode: '',
         stockPrice: '',
         costPrice: '',
         offPrice: '',
@@ -179,8 +192,16 @@ export default {
   },
   methods: {
     addStore() { // 添加商品
-      this.$refs['formData'].validator((valid) => {
+      this.$refs['formData'].validate((valid) => {
         if(!valid){
+          return false;
+        }
+        if(!this.formData.goodsImgUrl){
+          this.$notify({
+            title: '提示',
+            message: '请上传商品图片',
+            type: 'warning'
+          });
           return false;
         }
         // add操作
@@ -189,7 +210,8 @@ export default {
             this.$message({
               message: '添加成功！',
               type: 'success'
-            })
+            });
+            this.$emit('handleSuccess');
           }
         })
       })
@@ -199,8 +221,56 @@ export default {
     },
     uploadSuccess(data) { // 图片上传成功
       const {file_id, file_url} = data;
-      this.formData.goodsImgUrl = file_url;
+      this.formData.goodsImgUrl = FILEURL + file_url;
       this.formData.imgUrlId = file_id;
+    },
+    getGoodsInfo(goodsId){
+      getGoodsDetail({goodsId: goodsId}).then(({ data }) => {
+        const param = {
+          categoryId: data.category_id,
+          goodsName: data.goods_name,
+          stockPrice: data.stock_price,
+          costPrice: data.cost_price,
+          offPrice: data.off_price,
+          goodsDesc: data.goods_desc,
+          stock: data.stock,
+          goodsImgUrl: data.goods_img_url,
+          imgUrlId: data.img_url_id,
+          goodsIndex: data.goods_index,
+          goodsStatus: data.goods_status,
+          comments: data.comments
+        }
+        Object.assign(this.formData, param);
+      })
+    },
+    editStore() { // 编辑商品
+      this.$refs['formData'].validate((valid) => {
+        if(!valid){
+          return false;
+        }
+        if(!this.formData.goodsImgUrl){
+          this.$notify({
+            title: '提示',
+            message: '请上传商品图片',
+            type: 'warning'
+          });
+          return false;
+        }
+        const param = {
+          ...this.formData,
+          goodsId: this.goodsId
+        }
+        // add操作
+        goodsUpdate(param).then(({ code }) => {
+          if(code === 0){
+            this.$message({
+              message: '修改成功！',
+              type: 'success'
+            });
+            this.$emit('handleSuccess');
+          }
+        })
+      })
     }
   },
 }

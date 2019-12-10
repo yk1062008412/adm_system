@@ -2,7 +2,7 @@
  * @Author: yk1062008412
  * @Date: 2019-11-05 22:16:41
  * @LastEditors: yk1062008412
- * @LastEditTime: 2019-12-07 20:38:19
+ * @LastEditTime: 2019-12-10 20:47:45
  * @Description: 商品管理 -> 商品信息
  -->
 <template>
@@ -12,13 +12,17 @@
       @handleSearch="onSearch"
       @handleAddStore="handleAddStore"
     />
-    <store-table />
+    <store-table
+      :list="resList"
+      @handleEdit="handleEdit"
+      @handleDelete="handleDelete"
+    />
     <div class="paginate-container">
       <el-pagination
         layout="total, sizes, prev, pager, next, jumper"
-        :page-size="10"
-        :page-sizes="[10, 30, 50, 100]"
-        :total="50">
+        :page-size="pageSize"
+        :page-sizes="[20, 30, 50, 100]"
+        :total="count">
       </el-pagination>
     </div>
     <el-dialog
@@ -30,6 +34,7 @@
         v-if="dialogVisible"
         :dialog-status="dialogStatus"
         :category-list="categoryList"
+        :goods-id="goodsId"
         @handleCancel="cancelOperate"
         @handleSuccess="onSuccess"
       />
@@ -59,7 +64,8 @@ export default {
       resList: [],
       dialogVisible: false,
       categoryList: [],
-      dialogStatus: 'add' // add: 新增, edit: 编辑
+      dialogStatus: 'add', // add: 新增, edit: 编辑
+      goodsId: null // 编辑时用到
     }
   },
   created() {
@@ -75,9 +81,9 @@ export default {
       }
       getStoreList(params).then(({ data, pageInfo: { count, currentPage, pageSize }}) => {
         this.resList = data || [],
-        this.count = count,
-        this.currentPage = currentPage,
-        this.pageSize = pageSize
+        this.count = +count,
+        this.currentPage = +currentPage,
+        this.pageSize = +pageSize
       })
     },
     getCategory(){ // 获取类目列表
@@ -98,15 +104,25 @@ export default {
       this.dialogVisible = false;
     },
     onSuccess(){ // 操作成功，关闭弹框
-      this.pageSize = 1;
+      this.currentPage = 1;
       this.fetchData();
       this.dialogVisible = false;
+    },
+    handleEdit(goodsId) { // 编辑商品
+      this.goodsId = goodsId;
+      this.dialogStatus = 'edit';
+      this.dialogVisible = true;
+    },
+    handleDelete() { // 删除商品
+      this.currentPage = 1;
+      this.fetchData();
     }
-  },
+  }
 };
 </script>
 <style lang="less" scoped>
 .paginate-container{
   text-align: right;
+  margin-top: 20px;
 }
 </style>

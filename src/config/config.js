@@ -1,1 +1,2 @@
-export const REQUESTURL = 'http://localhost:8081/api/'
+export const REQUESTURL = 'http://localhost:3001/api/';
+export const FILEURL = 'http://localhost:3001/';
