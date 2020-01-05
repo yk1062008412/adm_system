@@ -1,8 +1,8 @@
 <!--
  * @Author: yk1062008412
  * @Date: 2019-11-05 22:09:21
- * @LastEditors: yk1062008412
- * @LastEditTime: 2019-12-04 22:55:00
+ * @LastEditors  : yk1062008412
+ * @LastEditTime : 2020-01-05 13:47:12
  * @Description: 商品管理 -> 商品分类
  -->
 <template>
@@ -20,7 +20,7 @@
       @handleEdit="handleEdit"
       @handleReFetch="handleReFetch"
     />
-    <el-dialog title="新增分类" :visible.sync="dialogVisible" width="450px">
+    <el-dialog :title="dialogType === 1 ? '新增分类' : '编辑分类'" :visible.sync="dialogVisible" width="450px">
       <category-dialog
         v-if="dialogVisible"
         :dialog-type="dialogType"
@@ -66,6 +66,7 @@ export default {
     },
     handleClose(){ //关闭弹窗
       this.dialogVisible = false;
+      this.editCategoryId = null;
     },
     handleReFetch(){ // 添加成功，重新获取数据
       this.dialogVisible = false;

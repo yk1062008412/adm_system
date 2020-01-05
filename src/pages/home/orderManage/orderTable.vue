@@ -1,8 +1,8 @@
 <!--
  * @Author: ljy-code
  * @Date: 2019-12-11 10:48:57
- * @LastEditors: ljy-code
- * @LastEditTime: 2019-12-11 15:23:28
+ * @LastEditors  : yk1062008412
+ * @LastEditTime : 2020-01-05 15:56:08
  * @Description: 订单列表Table
 -->
 
@@ -54,7 +54,6 @@
 
 <script>
 import { ORDER_STATUS_MAP, ORDER_PAY_MODE_MAP } from '@/utils/constants';
-
 export default {
   name: 'OrderTable',
   props: {

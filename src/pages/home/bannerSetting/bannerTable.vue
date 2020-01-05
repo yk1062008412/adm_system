@@ -1,27 +1,23 @@
-<!--
- * @Author: yk1062008412
- * @Date: 2019-12-02 22:23:33
- * @LastEditors  : yk1062008412
- * @LastEditTime : 2020-01-05 14:20:50
- * @Description: 类目Table列表
- -->
-
- <template>
+<template>
   <el-table :data="list" stripe style="width: 100%" size="small" empty-text="暂无数据">
     <el-table-column type="index" width="50" />
-    <el-table-column prop="category_id" label="分类ID" />
-    <el-table-column prop="category_name" label="分类名称" />
-    <el-table-column prop="category_status" label="状态">
+    <el-table-column prop="banner_id" label="banner图ID" />
+    <el-table-column prop="banner_img_url" label="banner图" width="200">
       <template slot-scope="scope">
-        <span v-if="scope.row.category_status === 0">
-          <el-tag type="warning" size="mini">下架</el-tag>
+        <el-image style="width:188px;height:75px" :src="scope.row.banner_img_url" fit="contain" />
+      </template>
+    </el-table-column>
+    <el-table-column prop="banner_status" label="状态">
+      <template slot-scope="scope">
+        <span v-if="scope.row.banner_status === 0">
+          <el-tag type="warning" size="mini">下线</el-tag>
         </span>
-        <span v-if="scope.row.category_status === 1">
-          <el-tag type="success" size="mini">上架</el-tag>
+        <span v-if="scope.row.banner_status === 1">
+          <el-tag type="success" size="mini">上线</el-tag>
         </span>
       </template>
     </el-table-column>
-    <el-table-column prop="category_index" label="排序" />
+    <el-table-column prop="banner_index" label="排序" />
     <el-table-column label="添加时间" width="150">
       <template slot-scope="scope">
         <span>{{ formatData(scope.row.add_time) }}</span>
@@ -36,16 +32,16 @@
     <el-table-column prop="address" label="操作" width="140px">
       <template slot-scope="scope">
         <el-tooltip content="编辑" placement="top">
-          <el-button type="primary" icon="el-icon-edit" circle size="mini" @click="editCategory(scope.row.category_id)" />
+          <el-button type="primary" icon="el-icon-edit" circle size="mini" @click="editBanner(scope.row.banner_id)" />
         </el-tooltip>
-        <el-tooltip v-if="scope.row.category_status === 0" content="上架" placement="top">
-          <el-button type="success" icon="el-icon-upload2" circle size="mini" @click="categoryUp(scope.row.category_id)" />
+        <el-tooltip v-if="scope.row.banner_status === 0" content="上线" placement="top">
+          <el-button type="success" icon="el-icon-upload2" circle size="mini" @click="bannerUp(scope.row.banner_id)" />
         </el-tooltip>
-        <el-tooltip v-if="scope.row.category_status === 1" content="下架" placement="top">
-          <el-button type="warning" icon="el-icon-download" circle size="mini" @click="categoryOff(scope.row.category_id)" />
+        <el-tooltip v-if="scope.row.banner_status === 1" content="下线" placement="top">
+          <el-button type="warning" icon="el-icon-download" circle size="mini" @click="bannerOff(scope.row.banner_id)" />
         </el-tooltip>
         <el-tooltip content="删除" placement="top">
-          <el-button type="danger" icon="el-icon-delete" circle size="mini" @click="deleteCategory(scope.row.category_id)" />
+          <el-button type="danger" icon="el-icon-delete" circle size="mini" @click="deleteBanner(scope.row.banner_id)" />
         </el-tooltip>
       </template>
     </el-table-column>
@@ -53,7 +49,7 @@
 </template>
 
 <script>
-import { categoryUpOff, categoryDelete } from "@/api/home/storeCategory";
+import { bannerUpOff, bannerDelete } from "@/api/home/bannerSetting";
 export default {
   props: {
     list: {
@@ -62,26 +58,23 @@ export default {
     }
   },
   methods: {
-    formatData(timestamp){ // 格式化日期
-      return this.$moment(timestamp).format('YYYY-MM-DD HH:mm:ss');
+    editBanner (bannerId){ // 编辑banner
+      this.$emit('handleEdit', bannerId);
     },
-    editCategory(categoryId){ // 编辑分类
-      this.$emit('handleEdit', categoryId);
-    },
-    categoryUp(categoryId){ // 上架类目
-      this.$confirm('确定要上架吗?', '提示', {
+    bannerUp (bannerId) { // 上线banner
+      this.$confirm('确定要上线吗?', '提示', {
         confirmButtonText: '确定',
         cancelButtonText: '取消',
         type: 'warning'
       }).then(() => {
         const params = {
-          categoryId,
-          categoryStatus: 1
+          bannerId,
+          bannerStatus: 1
         }
-        categoryUpOff(params).then(({ code }) => {
+        bannerUpOff(params).then(({ code }) => {
           if(code === 0){
             this.$message({
-              message: '上架成功！',
+              message: '上线成功！',
               type: 'success'
             });
             this.$emit('handleReFetch')
@@ -89,20 +82,20 @@ export default {
         })
       });
     },
-    categoryOff(categoryId){ // 下架类目
-      this.$confirm('确定要下架吗?', '提示', {
+    bannerOff (bannerId) { // 下线banner
+      this.$confirm('确定要下线吗?', '提示', {
         confirmButtonText: '确定',
         cancelButtonText: '取消',
         type: 'warning'
       }).then(() => {
         const params = {
-          categoryId,
-          categoryStatus: 0
+          bannerId,
+          bannerStatus: 0
         }
-        categoryUpOff(params).then(({ code }) => {
+        bannerUpOff(params).then(({ code }) => {
           if(code === 0){
             this.$message({
-              message: '下架成功！',
+              message: '下线成功！',
               type: 'success'
             });
             this.$emit('handleReFetch')
@@ -110,16 +103,16 @@ export default {
         })
       });
     },
-    deleteCategory(categoryId){ // 删除类目
+    deleteBanner (bannerId) { // 删除banner
       this.$confirm('此操作将永久删除，不可恢复！！！确定要删除吗？', '提示', {
         confirmButtonText: '确定',
         cancelButtonText: '取消',
         type: 'warning'
       }).then(() => {
         const params = {
-          categoryId
+          bannerId
         }
-        categoryDelete(params).then(({ code }) => {
+        bannerDelete(params).then(({ code }) => {
           if(code === 0){
             this.$message({
               message: '删除完成！',
@@ -129,7 +122,10 @@ export default {
           }
         })
       }).catch();
+    },
+    formatData(timestamp){ // 格式化日期
+      return this.$moment(timestamp).format('YYYY-MM-DD HH:mm:ss');
     }
   }
-};
+}
 </script>

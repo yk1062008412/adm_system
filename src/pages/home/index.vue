@@ -32,8 +32,8 @@
               </template>
               <el-menu-item index="storeCategory">商品分类</el-menu-item>
               <el-menu-item index="storeInfo">商品信息</el-menu-item>
-              <el-menu-item index="1-3">特价商品</el-menu-item>
-              <el-menu-item index="1-4">banner轮播</el-menu-item>
+              <!-- <el-menu-item index="1-3">特价商品</el-menu-item> -->
+              <el-menu-item index="bannerSetting">banner设置</el-menu-item>
             </el-submenu>
             <el-submenu index="2">
               <template slot="title">
@@ -41,8 +41,6 @@
                 <span>订单管理</span>
               </template>
               <el-menu-item index="order">订单管理</el-menu-item>
-              <el-menu-item index="1-2">选项2</el-menu-item>
-              <el-menu-item index="1-3">选项3</el-menu-item>
             </el-submenu>
             <el-submenu index="3">
               <template slot="title">
@@ -53,20 +51,12 @@
               <el-menu-item index="1-2">销量数据</el-menu-item>
               <el-menu-item index="1-3">用户信息</el-menu-item>
             </el-submenu>
-            <el-submenu index="4">
+            <el-submenu index="4" v-if="superAdm === 1">
               <template slot="title">
                 <i class="el-icon-setting"></i>
                 <span>系统设置</span>
               </template>
               <el-menu-item index="account">用户管理</el-menu-item>
-              <el-menu-item index="1-2">选项2</el-menu-item>
-              <el-menu-item index="1-3">选项3</el-menu-item>
-            </el-submenu>
-            <el-submenu index="5" disabled>
-              <template slot="title">
-                <i class="el-icon-setting"></i>
-                <span slot="title">导航四</span>
-              </template>
             </el-submenu>
           </el-menu>
         </el-aside>
@@ -84,7 +74,10 @@ export default {
   name: "Home",
   data() {
     return {
-      admName: ''
+      admName: '',
+      admAccount: '',
+      admPhone: '',
+      superAdm: 0
     }
   },
   mounted() {
@@ -94,6 +87,9 @@ export default {
     getUserInfo() {
       getAdmInfo().then(({ data }) => {
         this.admName = data.adm_name || '未知用户';
+        this.admAccount = data.adm_account || '',
+        this.admPhone = data.adm_phone || '',
+        this.superAdm = data.super_adm || 0
       });
     }
   }

@@ -1,15 +1,21 @@
 <!--
  * @Author: yk1062008412
  * @Date: 2019-12-04 22:35:31
- * @LastEditors: yk1062008412
- * @LastEditTime: 2019-12-10 20:38:31
+ * @LastEditors  : yk1062008412
+ * @LastEditTime : 2020-01-05 14:41:39
  * @Description: store Table 表格
  -->
 <template>
   <div>
     <el-table :data="list" stripe style="width: 100%" size="small" empty-text="暂无数据">
+      <el-table-column type="index" width="50" />
       <el-table-column prop="goods_id" label="商品ID" />
       <el-table-column prop="goods_name" label="商品名称" />
+      <el-table-column prop="category_name" label="商品图片">
+        <template slot-scope="scope">
+          <el-image style="width:80px;height:80px" :src="scope.row.goods_img_url" fit="contain" />
+        </template>
+      </el-table-column>
       <el-table-column prop="category_name" label="分类" />
       <el-table-column prop="goods_status" label="状态">
         <template slot-scope="scope">

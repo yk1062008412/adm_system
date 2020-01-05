@@ -1,3 +1,10 @@
+/*
+ * @Author: yk1062008412
+ * @Date: 2019-11-03 02:09:44
+ * @LastEditors  : yk1062008412
+ * @LastEditTime : 2020-01-05 12:40:01
+ * @Description: router 路由
+ */
 import Vue from 'vue';
 import VueRouter from 'vue-router';
 
@@ -16,6 +23,7 @@ const routes = [
             { path: '/home/account', name: 'account', component: () => import('../pages/home/accountManage') },
             { path: '/home/storeCategory', name: 'storeCategory', component: () => import('../pages/home/storeCategory') },
             { path: '/home/storeInfo', name: 'storeInfo', component: () => import('../pages/home/storeInfo') },
+            { path: '/home/bannerSetting', name: 'bannerSetting', component: () => import('../pages/home/bannerSetting') },
             { path: '/home/*', name: 'homeError', component: () => import('../pages/error') }
         ]
     }, // 首页
