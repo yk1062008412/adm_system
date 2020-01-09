@@ -11,7 +11,7 @@
           </span>
           <el-dropdown-menu slot="dropdown">
             <el-dropdown-item>修改密码</el-dropdown-item>
-            <el-dropdown-item>退出登录</el-dropdown-item>
+            <el-dropdown-item @click.native="goLoginPage()">退出登录</el-dropdown-item>
           </el-dropdown-menu>
         </el-dropdown>
       </el-header>
@@ -91,6 +91,9 @@ export default {
         this.admPhone = data.adm_phone || '',
         this.superAdm = data.super_adm || 0
       });
+    },
+    goLoginPage() {
+      window.location.href = '/login';
     }
   }
 };

@@ -2,7 +2,7 @@
  * @Author: yk1062008412
  * @Date: 2020-01-05 13:01:24
  * @LastEditors  : yk1062008412
- * @LastEditTime : 2020-01-05 16:07:47
+ * @LastEditTime : 2020-01-10 00:07:42
  * @Description: banner 新增，编辑
  -->
 <template>
@@ -137,7 +137,7 @@ export default {
       })
     },
     cancelOperate () { // 取消操作
-      this.$emit('handleCancel');
+      this.$emit('handleClose');
     }
   }
 }
