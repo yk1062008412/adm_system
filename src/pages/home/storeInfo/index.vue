@@ -1,8 +1,8 @@
 <!--
  * @Author: yk1062008412
  * @Date: 2019-11-05 22:16:41
- * @LastEditors: yk1062008412
- * @LastEditTime: 2019-12-10 20:47:45
+ * @LastEditors  : carkang.yang@qunar.com
+ * @LastEditTime : 2020-01-09 17:40:12
  * @Description: 商品管理 -> 商品信息
  -->
 <template>
@@ -22,7 +22,10 @@
         layout="total, sizes, prev, pager, next, jumper"
         :page-size="pageSize"
         :page-sizes="[20, 30, 50, 100]"
-        :total="count">
+        :current-page.sync="currentPage"
+        :total="count"
+        @size-change="handleSizeChange"
+        @current-change="handleCurrentChange">
       </el-pagination>
     </div>
     <el-dialog
@@ -115,6 +118,15 @@ export default {
     },
     handleDelete() { // 删除商品
       this.currentPage = 1;
+      this.fetchData();
+    },
+    handleSizeChange(pageSize){ // 每页数变化
+      this.pageSize = +pageSize;
+      this.currentPage = 1;
+      this.fetchData();
+    },
+    handleCurrentChange(currentPage){ // 当前页变化
+      this.currentPage = +currentPage;
       this.fetchData();
     }
   }

@@ -1,8 +1,8 @@
 <!--
  * @Author: yk1062008412
  * @Date: 2020-01-07 21:25:07
- * @LastEditors  : yk1062008412
- * @LastEditTime : 2020-01-07 23:00:56
+ * @LastEditors  : carkang.yang@qunar.com
+ * @LastEditTime : 2020-01-09 17:49:29
  * @Description: order form
  -->
 <template>
@@ -47,7 +47,7 @@
           </el-form-item>
         </el-col>
         <el-col :span="12">
-          <el-form-item label="订单生成时间" prop="orderAddTime">
+          <el-form-item label="下单时间" prop="orderAddTime">
             <el-date-picker
               v-model="formData.orderAddTime"
               type="datetimerange"
@@ -149,20 +149,43 @@ export default {
   },
   watch: {
     'formData.orderAddTime' (val) {
-      Object.assign(this.formData, {orderAddTimeStart: val[0], orderAddTimeEnd: val[1]})
+      if(val && val.length === 2){
+        Object.assign(this.formData, {orderAddTimeStart: val[0], orderAddTimeEnd: val[1]})
+      }else{
+        Object.assign(this.formData, {orderAddTimeStart: '', orderAddTimeEnd: ''})
+      }
     },
     'formData.orderPayTime' (val) {
-      Object.assign(this.formData, {orderPayTimeStart: val[0], orderPayTimeEnd: val[1]})
+      if(val && val.length === 2){
+        Object.assign(this.formData, {orderPayTimeStart: val[0], orderPayTimeEnd: val[1]})
+      }else{
+        Object.assign(this.formData, {orderPayTimeStart: '', orderPayTimeEnd: ''})
+      }
     },
     'formData.orderSendTime' (val) {
-      Object.assign(this.formData, {orderSendTimeStart: val[0], orderSendTimeEnd: val[1]})
+      if(val && val.length === 2){
+        Object.assign(this.formData, {orderSendTimeStart: val[0], orderSendTimeEnd: val[1]})
+      }else{
+        Object.assign(this.formData, {orderSendTimeStart: '', orderSendTimeEnd: ''})
+      }
     },
     'formData.orderCompleteTime' (val) {
-      Object.assign(this.formData, {orderCompleteTimeStart: val[0], orderCompleteTimeEnd: val[1]})
+      if(val && val.length === 2){
+        Object.assign(this.formData, {orderCompleteTimeStart: val[0], orderCompleteTimeEnd: val[1]})
+      }else{
+        Object.assign(this.formData, {orderCompleteTimeStart: '', orderCompleteTimeEnd: ''})
+      }
     },
     'formData.orderExitTime' (val) {
-      Object.assign(this.formData, {orderExitTimeStart: val[0], orderExitTimeEnd: val[1]})
+      if(val && val.length === 2){
+        Object.assign(this.formData, {orderExitTimeStart: val[0], orderExitTimeEnd: val[1]})
+      }else{
+        Object.assign(this.formData, {orderExitTimeStart: '', orderExitTimeEnd: ''})
+      }
     }
+  },
+  created() {
+    this.onSearch();
   },
   methods: {
     onSearch () {
@@ -174,9 +197,7 @@ export default {
       delete param.orderSendTime;
       delete param.orderCompleteTime;
       delete param.orderExitTime;
-      console.log(param);
-      console.log(this.formData);
-      // this.$emit('handleSearch', this.formData)
+      this.$emit('handleSearch', this.formData)
     },
     resetForm (formName) {
       this.$refs[formName].resetFields();

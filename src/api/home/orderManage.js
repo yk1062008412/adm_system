@@ -18,10 +18,19 @@ export function getOrderDetail(params) {
   })
 }
 
-// 修改订单信息
-export function orderUpdate(params) {
+// 修改订单信息-订单状态
+export function orderStatusUpdate(params) {
   return request({
-    url: 'order/orderUpdate',
+    url: 'order/orderStatusUpdate',
+    method: 'post',
+    data: params
+  })
+}
+
+// 修改订单信息-订单金额
+export function orderAmountUpdate(params) {
+  return request({
+    url: 'order/orderAmountUpdate',
     method: 'post',
     data: params
   })
