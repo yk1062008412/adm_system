@@ -1,8 +1,8 @@
 <!--
  * @Author: yk1062008412
  * @Date: 2019-12-04 22:36:35
- * @LastEditors: yk1062008412
- * @LastEditTime: 2019-12-10 20:46:28
+ * @LastEditors  : yk1062008412
+ * @LastEditTime : 2020-01-16 21:42:05
  * @Description: store 新增编辑弹框
  -->
 <template>
@@ -122,7 +122,7 @@ export default {
       if(!value) {
         callback();
       }
-      if(!(/^[0-9]+(.[0-9]{2})?$/.test(value))){
+      if(!(/^[0-9]+(.[0-9]{1,2})?$/.test(value))){
         callback(new Error('请输入正确的金额'));
       }else{
         callback();
@@ -229,7 +229,7 @@ export default {
         const param = {
           categoryId: data.category_id,
           goodsName: data.goods_name,
-          stockPrice: data.stock_price,
+          stockPrice: data.stock_price || '',
           costPrice: data.cost_price,
           offPrice: data.off_price,
           goodsDesc: data.goods_desc,
